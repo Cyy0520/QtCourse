@@ -3,6 +3,7 @@ build/
 bin/
 debug/
 release/
+.qmake.stash
 
 # Qt Creator files
 *.pro.user
@@ -20,6 +21,7 @@ ui_*.h
 # Qt generated files
 Makefile*
 *build-*
+.qtc_clangd/
 
 # Object files
 *.o
@@ -49,3 +51,7 @@ Makefile*
 # OS specific
 .DS_Store
 Thumbs.db
+
+# Database files
+*.db
+*.sqlite
