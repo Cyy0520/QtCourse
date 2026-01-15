@@ -16,6 +16,7 @@ QT_END_NAMESPACE
 class CityWidget;
 class CurrentWeatherWidget;
 class ForecastWidget;
+class ChartWidget;
 
 /**
  * @class MainWindow
@@ -51,6 +52,7 @@ private:
     CityWidget *m_cityWidget;
     CurrentWeatherWidget *m_currentWeatherWidget;
     ForecastWidget *m_forecastWidget;
+    ChartWidget *m_chartWidget;
     QString m_currentCityId;
     QString m_currentCityName;
 };

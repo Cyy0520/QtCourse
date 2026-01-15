@@ -8,6 +8,7 @@
 #include "views/citywidget.h"
 #include "views/currentweatherwidget.h"
 #include "views/forecastwidget.h"
+#include "views/chartwidget.h"
 #include "workers/weatherworker.h"
 #include "models/citymodel.h"
 #include <QDateTime>
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_cityWidget(nullptr)
     , m_currentWeatherWidget(nullptr)
     , m_forecastWidget(nullptr)
+    , m_chartWidget(nullptr)
 {
     ui->setupUi(this);
     
@@ -46,12 +48,18 @@ MainWindow::MainWindow(QWidget *parent)
         if (m_forecastWidget) {
             m_forecastWidget->updateHourlyForecast(forecast);
         }
+        if (m_chartWidget) {
+            m_chartWidget->updateHourlyData(forecast);
+        }
     });
     
     connect(&controller, &WeatherThreadController::dailyForecastReady,
             this, [this](const QList<DailyForecast> &forecast) {
         if (m_forecastWidget) {
             m_forecastWidget->updateDailyForecast(forecast);
+        }
+        if (m_chartWidget) {
+            m_chartWidget->updateDailyData(forecast);
         }
     });
     
@@ -121,6 +129,22 @@ void MainWindow::setupPages()
         WeatherThreadController::instance().requestDailyForecast(cityId);
     });
     
+    // 创建数据分析页面
+    m_chartWidget = new ChartWidget(this);
+    
+    // 替换占位页面（索引2是数据分析）
+    QWidget *oldChartWidget = ui->stackedWidget->widget(2);
+    ui->stackedWidget->removeWidget(oldChartWidget);
+    ui->stackedWidget->insertWidget(2, m_chartWidget);
+    delete oldChartWidget;
+    
+    // 连接图表刷新信号
+    connect(m_chartWidget, &ChartWidget::refreshRequested,
+            this, [this](const QString &cityId) {
+        WeatherThreadController::instance().requestHourlyForecast(cityId);
+        WeatherThreadController::instance().requestDailyForecast(cityId);
+    });
+    
     // 创建城市管理页面
     m_cityWidget = new CityWidget(this);
     
@@ -147,6 +171,11 @@ void MainWindow::setupPages()
         // 更新预报页面
         if (m_forecastWidget) {
             m_forecastWidget->setCity(cityId, m_currentCityName);
+        }
+        
+        // 更新图表页面
+        if (m_chartWidget) {
+            m_chartWidget->setCity(cityId, m_currentCityName);
         }
         
         // 请求所有天气数据
