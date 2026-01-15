@@ -12,13 +12,15 @@ SOURCES += \
     src/mainwindow.cpp \
     src/database/databasemanager.cpp \
     src/network/networkmanager.cpp \
-    src/config/configmanager.cpp
+    src/config/configmanager.cpp \
+    src/models/citymodel.cpp
 
 HEADERS += \
     src/mainwindow.h \
     src/database/databasemanager.h \
     src/network/networkmanager.h \
-    src/config/configmanager.h
+    src/config/configmanager.h \
+    src/models/citymodel.h
 
 FORMS += \
     src/mainwindow.ui
