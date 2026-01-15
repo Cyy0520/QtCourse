@@ -24,7 +24,8 @@ SOURCES += \
     src/views/chartwidget.cpp \
     src/views/lifeindexwidget.cpp \
     src/views/settingswidget.cpp \
-    src/views/alertwidget.cpp
+    src/views/alertwidget.cpp \
+    src/utils/dataexporter.cpp
 
 HEADERS += \
     src/mainwindow.h \
@@ -43,7 +44,8 @@ HEADERS += \
     src/views/chartwidget.h \
     src/views/lifeindexwidget.h \
     src/views/settingswidget.h \
-    src/views/alertwidget.h
+    src/views/alertwidget.h \
+    src/utils/dataexporter.h
 
 FORMS += \
     src/mainwindow.ui \
