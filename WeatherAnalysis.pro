@@ -29,7 +29,8 @@ HEADERS += \
     src/views/citywidget.h
 
 FORMS += \
-    src/mainwindow.ui
+    src/mainwindow.ui \
+    src/views/citywidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

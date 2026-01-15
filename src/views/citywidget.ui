@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CityWidget</class>
+ <widget class="QWidget" name="CityWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>20</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>20</number>
+   </property>
+   <property name="spacing">
+    <number>15</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="titleLabel">
+     <property name="text">
+      <string>🏙️ 城市管理</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 24px; font-weight: bold; color: #2c3e50; padding: 10px 0;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="searchEdit">
+     <property name="placeholderText">
+      <string>搜索城市（支持拼音首字母）...</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+    padding: 10px 15px;
+    border: 2px solid #bdc3c7;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+}
+QLineEdit:focus {
+    border-color: #3498db;
+}</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="btnLayout">
+     <item>
+      <widget class="QPushButton" name="addBtn">
+       <property name="text">
+        <string>➕ 添加城市</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    background-color: #3498db;
+    color: white;
+}
+QPushButton:hover {
+    background-color: #2980b9;
+}
+QPushButton:pressed {
+    background-color: #1f6dad;
+}</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="removeBtn">
+       <property name="text">
+        <string>➖ 移除城市</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    background-color: #e74c3c;
+    color: white;
+}
+QPushButton:hover {
+    background-color: #c0392b;
+}
+QPushButton:pressed {
+    background-color: #a93226;
+}</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="favoriteBtn">
+       <property name="text">
+        <string>⭐ 收藏/取消</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    background-color: #f39c12;
+    color: white;
+}
+QPushButton:hover {
+    background-color: #d68910;
+}
+QPushButton:pressed {
+    background-color: #b9770e;
+}</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="refreshBtn">
+       <property name="text">
+        <string>🔄 刷新</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    background-color: #27ae60;
+    color: white;
+}
+QPushButton:hover {
+    background-color: #219a52;
+}
+QPushButton:pressed {
+    background-color: #1e8449;
+}</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QListView" name="cityListView">
+     <property name="styleSheet">
+      <string notr="true">QListView {
+    border: 2px solid #bdc3c7;
+    border-radius: 8px;
+    background: white;
+    padding: 5px;
+}
+QListView::item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ecf0f1;
+    border-radius: 4px;
+}
+QListView::item:selected {
+    background-color: #3498db;
+    color: white;
+}
+QListView::item:hover {
+    background-color: #ebf5fb;
+}</string>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+     <property name="dragEnabled">
+      <bool>true</bool>
+     </property>
+     <property name="dragDropMode">
+      <enum>QAbstractItemView::InternalMove</enum>
+     </property>
+     <property name="defaultDropAction">
+      <enum>Qt::MoveAction</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="statusLabel">
+     <property name="text">
+      <string>就绪</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #7f8c8d; font-size: 12px; padding: 5px;</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

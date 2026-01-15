@@ -4,169 +4,55 @@
  */
 
 #include "citywidget.h"
+#include "ui_citywidget.h"
 #include "../services/cityservice.h"
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QDateTime>
 
 CityWidget::CityWidget(QWidget *parent)
     : QWidget(parent)
-    , m_searchEdit(nullptr)
-    , m_cityListView(nullptr)
-    , m_addBtn(nullptr)
-    , m_removeBtn(nullptr)
-    , m_refreshBtn(nullptr)
-    , m_statusLabel(nullptr)
+    , ui(new Ui::CityWidget)
     , m_cityModel(new CityModel(this))
     , m_filterModel(new CityFilterModel(this))
 {
-    setupUI();
+    ui->setupUi(this);
+    
+    // 设置模型
+    m_filterModel->setSourceModel(m_cityModel);
+    ui->cityListView->setModel(m_filterModel);
+    ui->cityListView->setModelColumn(CityModel::ColName);
+    
     setupConnections();
     loadCities();
 }
 
 CityWidget::~CityWidget()
 {
-}
-
-void CityWidget::setupUI()
-{
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->setContentsMargins(20, 20, 20, 20);
-    mainLayout->setSpacing(15);
-    
-    // 标题
-    QLabel *titleLabel = new QLabel(tr("🏙️ 城市管理"), this);
-    titleLabel->setStyleSheet(
-        "font-size: 24px; font-weight: bold; color: #2c3e50; padding: 10px 0;"
-    );
-    mainLayout->addWidget(titleLabel);
-    
-    // 搜索栏
-    QHBoxLayout *searchLayout = new QHBoxLayout();
-    m_searchEdit = new QLineEdit(this);
-    m_searchEdit->setPlaceholderText(tr("搜索城市（支持拼音首字母）..."));
-    m_searchEdit->setStyleSheet(
-        "QLineEdit {"
-        "    padding: 10px 15px;"
-        "    border: 2px solid #bdc3c7;"
-        "    border-radius: 8px;"
-        "    font-size: 14px;"
-        "    background: white;"
-        "}"
-        "QLineEdit:focus {"
-        "    border-color: #3498db;"
-        "}"
-    );
-    searchLayout->addWidget(m_searchEdit);
-    mainLayout->addLayout(searchLayout);
-    
-    // 按钮栏
-    QHBoxLayout *btnLayout = new QHBoxLayout();
-    
-    m_addBtn = new QPushButton(tr("➕ 添加城市"), this);
-    m_removeBtn = new QPushButton(tr("➖ 移除城市"), this);
-    m_refreshBtn = new QPushButton(tr("🔄 刷新"), this);
-    
-    QString btnStyle = 
-        "QPushButton {"
-        "    padding: 8px 16px;"
-        "    border: none;"
-        "    border-radius: 6px;"
-        "    font-size: 13px;"
-        "    background-color: #3498db;"
-        "    color: white;"
-        "}"
-        "QPushButton:hover {"
-        "    background-color: #2980b9;"
-        "}"
-        "QPushButton:pressed {"
-        "    background-color: #1f6dad;"
-        "}";
-    
-    m_addBtn->setStyleSheet(btnStyle);
-    m_removeBtn->setStyleSheet(btnStyle.replace("#3498db", "#e74c3c").replace("#2980b9", "#c0392b").replace("#1f6dad", "#a93226"));
-    m_refreshBtn->setStyleSheet(
-        "QPushButton {"
-        "    padding: 8px 16px;"
-        "    border: none;"
-        "    border-radius: 6px;"
-        "    font-size: 13px;"
-        "    background-color: #27ae60;"
-        "    color: white;"
-        "}"
-        "QPushButton:hover {"
-        "    background-color: #219a52;"
-        "}"
-    );
-    
-    btnLayout->addWidget(m_addBtn);
-    btnLayout->addWidget(m_removeBtn);
-    btnLayout->addWidget(m_refreshBtn);
-    btnLayout->addStretch();
-    mainLayout->addLayout(btnLayout);
-    
-    // 城市列表
-    m_cityListView = new QListView(this);
-    m_cityListView->setStyleSheet(
-        "QListView {"
-        "    border: 2px solid #bdc3c7;"
-        "    border-radius: 8px;"
-        "    background: white;"
-        "    padding: 5px;"
-        "}"
-        "QListView::item {"
-        "    padding: 12px 15px;"
-        "    border-bottom: 1px solid #ecf0f1;"
-        "    border-radius: 4px;"
-        "}"
-        "QListView::item:selected {"
-        "    background-color: #3498db;"
-        "    color: white;"
-        "}"
-        "QListView::item:hover {"
-        "    background-color: #ebf5fb;"
-        "}"
-    );
-    m_cityListView->setAlternatingRowColors(true);
-    m_cityListView->setDragEnabled(true);
-    m_cityListView->setAcceptDrops(true);
-    m_cityListView->setDropIndicatorShown(true);
-    m_cityListView->setDragDropMode(QAbstractItemView::InternalMove);
-    
-    // 设置模型
-    m_filterModel->setSourceModel(m_cityModel);
-    m_cityListView->setModel(m_filterModel);
-    m_cityListView->setModelColumn(CityModel::ColName);
-    
-    mainLayout->addWidget(m_cityListView, 1);
-    
-    // 状态栏
-    m_statusLabel = new QLabel(this);
-    m_statusLabel->setStyleSheet("color: #7f8c8d; font-size: 12px; padding: 5px;");
-    mainLayout->addWidget(m_statusLabel);
+    delete ui;
 }
 
 void CityWidget::setupConnections()
 {
-    connect(m_searchEdit, &QLineEdit::textChanged,
+    connect(ui->searchEdit, &QLineEdit::textChanged,
             this, &CityWidget::onSearchTextChanged);
     
-    connect(m_cityListView, &QListView::clicked,
+    connect(ui->cityListView, &QListView::clicked,
             this, &CityWidget::onCityClicked);
     
-    connect(m_cityListView, &QListView::doubleClicked,
+    connect(ui->cityListView, &QListView::doubleClicked,
             this, &CityWidget::onCityDoubleClicked);
     
-    connect(m_addBtn, &QPushButton::clicked,
+    connect(ui->addBtn, &QPushButton::clicked,
             this, &CityWidget::onAddCityClicked);
     
-    connect(m_removeBtn, &QPushButton::clicked,
+    connect(ui->removeBtn, &QPushButton::clicked,
             this, &CityWidget::onRemoveCityClicked);
     
-    connect(m_refreshBtn, &QPushButton::clicked,
+    connect(ui->favoriteBtn, &QPushButton::clicked,
+            this, &CityWidget::onFavoriteClicked);
+    
+    connect(ui->refreshBtn, &QPushButton::clicked,
             this, &CityWidget::onRefreshClicked);
 }
 
@@ -180,12 +66,11 @@ void CityWidget::loadCities()
     }
     
     m_cityModel->setCities(cities);
-    m_statusLabel->setText(tr("共 %1 个城市").arg(cities.count()));
+    ui->statusLabel->setText(tr("共 %1 个城市").arg(cities.count()));
 }
 
 void CityWidget::addDefaultCities()
 {
-    // 添加一些默认城市
     QList<CityInfo> defaultCities = {
         {0, "101010100", "北京", "北京", "CN", 39.9042, 116.4074, true, 1},
         {0, "101020100", "上海", "上海", "CN", 31.2304, 121.4737, true, 2},
@@ -214,9 +99,9 @@ void CityWidget::onSearchTextChanged(const QString &text)
     int totalCount = m_cityModel->rowCount();
     
     if (text.isEmpty()) {
-        m_statusLabel->setText(tr("共 %1 个城市").arg(totalCount));
+        ui->statusLabel->setText(tr("共 %1 个城市").arg(totalCount));
     } else {
-        m_statusLabel->setText(tr("找到 %1 个城市（共 %2 个）").arg(visibleCount).arg(totalCount));
+        ui->statusLabel->setText(tr("找到 %1 个城市（共 %2 个）").arg(visibleCount).arg(totalCount));
     }
 }
 
@@ -227,7 +112,8 @@ void CityWidget::onCityClicked(const QModelIndex &index)
     QModelIndex sourceIndex = m_filterModel->mapToSource(index);
     CityInfo city = m_cityModel->cityAt(sourceIndex.row());
     
-    m_statusLabel->setText(tr("已选择: %1 (%2)").arg(city.name).arg(city.province));
+    QString favText = city.isFavorite ? tr("⭐") : "";
+    ui->statusLabel->setText(tr("已选择: %1 %2 (%3)").arg(favText).arg(city.name).arg(city.province));
 }
 
 void CityWidget::onCityDoubleClicked(const QModelIndex &index)
@@ -265,7 +151,7 @@ void CityWidget::onAddCityClicked()
 
 void CityWidget::onRemoveCityClicked()
 {
-    QModelIndex index = m_cityListView->currentIndex();
+    QModelIndex index = ui->cityListView->currentIndex();
     if (!index.isValid()) {
         QMessageBox::warning(this, tr("提示"), tr("请先选择要移除的城市"));
         return;
@@ -281,14 +167,33 @@ void CityWidget::onRemoveCityClicked()
     if (ret == QMessageBox::Yes) {
         if (CityService::instance().deleteCity(city.cityId)) {
             loadCities();
-            m_statusLabel->setText(tr("城市 %1 已移除").arg(city.name));
+            ui->statusLabel->setText(tr("城市 %1 已移除").arg(city.name));
         }
+    }
+}
+
+void CityWidget::onFavoriteClicked()
+{
+    QModelIndex index = ui->cityListView->currentIndex();
+    if (!index.isValid()) {
+        QMessageBox::warning(this, tr("提示"), tr("请先选择城市"));
+        return;
+    }
+    
+    QModelIndex sourceIndex = m_filterModel->mapToSource(index);
+    CityInfo city = m_cityModel->cityAt(sourceIndex.row());
+    
+    bool newFavorite = !city.isFavorite;
+    if (CityService::instance().setFavorite(city.cityId, newFavorite)) {
+        loadCities();
+        QString msg = newFavorite ? tr("已收藏 %1").arg(city.name) : tr("已取消收藏 %1").arg(city.name);
+        ui->statusLabel->setText(msg);
     }
 }
 
 void CityWidget::onRefreshClicked()
 {
     loadCities();
-    m_searchEdit->clear();
-    m_statusLabel->setText(tr("列表已刷新"));
+    ui->searchEdit->clear();
+    ui->statusLabel->setText(tr("列表已刷新"));
 }
