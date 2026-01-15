@@ -14,7 +14,8 @@ SOURCES += \
     src/network/networkmanager.cpp \
     src/config/configmanager.cpp \
     src/models/citymodel.cpp \
-    src/models/cityfiltermodel.cpp
+    src/models/cityfiltermodel.cpp \
+    src/services/cityservice.cpp
 
 HEADERS += \
     src/mainwindow.h \
@@ -22,7 +23,8 @@ HEADERS += \
     src/network/networkmanager.h \
     src/config/configmanager.h \
     src/models/citymodel.h \
-    src/models/cityfiltermodel.h
+    src/models/cityfiltermodel.h \
+    src/services/cityservice.h
 
 FORMS += \
     src/mainwindow.ui
