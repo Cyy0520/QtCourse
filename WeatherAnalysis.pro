@@ -26,6 +26,7 @@ SOURCES += \
     src/views/settingswidget.cpp \
     src/views/alertwidget.cpp \
     src/views/aboutwidget.cpp \
+    src/views/historywidget.cpp \
     src/utils/dataexporter.cpp
 
 HEADERS += \
@@ -47,6 +48,7 @@ HEADERS += \
     src/views/settingswidget.h \
     src/views/alertwidget.h \
     src/views/aboutwidget.h \
+    src/views/historywidget.h \
     src/utils/dataexporter.h
 
 FORMS += \
@@ -58,7 +60,8 @@ FORMS += \
     src/views/lifeindexwidget.ui \
     src/views/settingswidget.ui \
     src/views/alertwidget.ui \
-    src/views/aboutwidget.ui
+    src/views/aboutwidget.ui \
+    src/views/historywidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

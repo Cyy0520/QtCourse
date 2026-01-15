@@ -12,6 +12,7 @@
 #include "views/lifeindexwidget.h"
 #include "views/settingswidget.h"
 #include "views/aboutwidget.h"
+#include "views/historywidget.h"
 #include "workers/weatherworker.h"
 #include "models/citymodel.h"
 #include <QDateTime>
@@ -27,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_lifeIndexWidget(nullptr)
     , m_settingsWidget(nullptr)
     , m_aboutWidget(nullptr)
+    , m_historyWidget(nullptr)
 {
     ui->setupUi(this);
     
@@ -173,31 +175,22 @@ void MainWindow::setupPages()
         WeatherThreadController::instance().requestLifeIndex(cityId);
     });
     
-    // 创建设置页面
-    m_settingsWidget = new SettingsWidget(this);
+    // 创建历史记录页面
+    m_historyWidget = new HistoryWidget(this);
     
-    // 替换占位页面（索引5是设置）
-    QWidget *oldSettingsWidget = ui->stackedWidget->widget(5);
-    ui->stackedWidget->removeWidget(oldSettingsWidget);
-    ui->stackedWidget->insertWidget(5, m_settingsWidget);
-    delete oldSettingsWidget;
-    
-    // 连接设置变更信号
-    connect(m_settingsWidget, &SettingsWidget::settingsChanged,
-            this, [this]() {
-        // 刷新当前天气显示以应用新单位
-        if (!m_currentCityId.isEmpty()) {
-            WeatherThreadController::instance().requestCurrentWeather(m_currentCityId);
-        }
-    });
+    // 替换占位页面（索引4是历史记录）
+    QWidget *oldHistoryWidget = ui->stackedWidget->widget(4);
+    ui->stackedWidget->removeWidget(oldHistoryWidget);
+    ui->stackedWidget->insertWidget(4, m_historyWidget);
+    delete oldHistoryWidget;
     
     // 创建城市管理页面
     m_cityWidget = new CityWidget(this);
     
-    // 替换占位页面（索引4是城市管理）
-    QWidget *oldWidget = ui->stackedWidget->widget(4);
+    // 替换占位页面（索引5是城市管理）
+    QWidget *oldWidget = ui->stackedWidget->widget(5);
     ui->stackedWidget->removeWidget(oldWidget);
-    ui->stackedWidget->insertWidget(4, m_cityWidget);
+    ui->stackedWidget->insertWidget(5, m_cityWidget);
     delete oldWidget;
     
     // 连接城市选择信号
@@ -229,6 +222,11 @@ void MainWindow::setupPages()
             m_lifeIndexWidget->setCity(cityId, m_currentCityName);
         }
         
+        // 更新历史记录页面
+        if (m_historyWidget) {
+            m_historyWidget->setCity(cityId, m_currentCityName);
+        }
+        
         // 请求所有天气数据
         WeatherThreadController::instance().requestAllWeatherData(cityId);
         
@@ -237,12 +235,30 @@ void MainWindow::setupPages()
         updateStatusBar();
     });
     
+    // 创建设置页面
+    m_settingsWidget = new SettingsWidget(this);
+    
+    // 替换占位页面（索引6是设置）
+    QWidget *oldSettingsWidget = ui->stackedWidget->widget(6);
+    ui->stackedWidget->removeWidget(oldSettingsWidget);
+    ui->stackedWidget->insertWidget(6, m_settingsWidget);
+    delete oldSettingsWidget;
+    
+    // 连接设置变更信号
+    connect(m_settingsWidget, &SettingsWidget::settingsChanged,
+            this, [this]() {
+        // 刷新当前天气显示以应用新单位
+        if (!m_currentCityId.isEmpty()) {
+            WeatherThreadController::instance().requestCurrentWeather(m_currentCityId);
+        }
+    });
+    
     // 创建关于页面
     m_aboutWidget = new AboutWidget(this);
     
-    // 替换占位页面（索引6是关于）
-    QWidget *oldAboutWidget = ui->stackedWidget->widget(6);
+    // 替换占位页面（索引7是关于）
+    QWidget *oldAboutWidget = ui->stackedWidget->widget(7);
     ui->stackedWidget->removeWidget(oldAboutWidget);
-    ui->stackedWidget->insertWidget(6, m_aboutWidget);
+    ui->stackedWidget->insertWidget(7, m_aboutWidget);
     delete oldAboutWidget;
 }

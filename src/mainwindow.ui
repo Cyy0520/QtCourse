@@ -85,6 +85,11 @@ QListWidget::item:hover {
       </item>
       <item>
        <property name="text">
+        <string>🌡️ 生活指数</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
         <string>📜 历史记录</string>
        </property>
       </item>
@@ -167,7 +172,25 @@ QListWidget::item:hover {
         </item>
        </layout>
       </widget>
-      <!-- 页面3: 历史记录 -->
+      <!-- 页面3: 生活指数 -->
+      <widget class="QWidget" name="pageLifeIndex">
+       <layout class="QVBoxLayout" name="layoutLifeIndex">
+        <item>
+         <widget class="QLabel" name="labelLifeIndex">
+          <property name="text">
+           <string>生活指数页面</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size: 24px; color: #2c3e50;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <!-- 页面4: 历史记录 -->
       <widget class="QWidget" name="pageHistory">
        <layout class="QVBoxLayout" name="layoutHistory">
         <item>
@@ -185,7 +208,7 @@ QListWidget::item:hover {
         </item>
        </layout>
       </widget>
-      <!-- 页面4: 城市管理 -->
+      <!-- 页面5: 城市管理 -->
       <widget class="QWidget" name="pageCity">
        <layout class="QVBoxLayout" name="layoutCity">
         <item>
@@ -203,7 +226,7 @@ QListWidget::item:hover {
         </item>
        </layout>
       </widget>
-      <!-- 页面5: 系统设置 -->
+      <!-- 页面6: 系统设置 -->
       <widget class="QWidget" name="pageSettings">
        <layout class="QVBoxLayout" name="layoutSettings">
         <item>
@@ -221,7 +244,7 @@ QListWidget::item:hover {
         </item>
        </layout>
       </widget>
-      <!-- 页面6: 关于 -->
+      <!-- 页面7: 关于 -->
       <widget class="QWidget" name="pageAbout">
        <layout class="QVBoxLayout" name="layoutAbout">
         <item>
