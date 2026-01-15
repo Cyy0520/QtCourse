@@ -14,6 +14,7 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class CityWidget;
+class CurrentWeatherWidget;
 
 /**
  * @class MainWindow
@@ -47,6 +48,9 @@ private:
 private:
     Ui::MainWindow *ui;
     CityWidget *m_cityWidget;
+    CurrentWeatherWidget *m_currentWeatherWidget;
+    QString m_currentCityId;
+    QString m_currentCityName;
 };
 
 #endif // MAINWINDOW_H
