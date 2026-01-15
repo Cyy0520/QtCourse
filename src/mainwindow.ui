@@ -98,6 +98,11 @@ QListWidget::item:hover {
         <string>⚙️ 系统设置</string>
        </property>
       </item>
+      <item>
+       <property name="text">
+        <string>ℹ️ 关于</string>
+       </property>
+      </item>
      </widget>
     </item>
     <item>
@@ -205,6 +210,24 @@ QListWidget::item:hover {
          <widget class="QLabel" name="labelSettings">
           <property name="text">
            <string>系统设置页面</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size: 24px; color: #2c3e50;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <!-- 页面6: 关于 -->
+      <widget class="QWidget" name="pageAbout">
+       <layout class="QVBoxLayout" name="layoutAbout">
+        <item>
+         <widget class="QLabel" name="labelAbout">
+          <property name="text">
+           <string>关于页面</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>

@@ -11,6 +11,7 @@
 #include "views/chartwidget.h"
 #include "views/lifeindexwidget.h"
 #include "views/settingswidget.h"
+#include "views/aboutwidget.h"
 #include "workers/weatherworker.h"
 #include "models/citymodel.h"
 #include <QDateTime>
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_chartWidget(nullptr)
     , m_lifeIndexWidget(nullptr)
     , m_settingsWidget(nullptr)
+    , m_aboutWidget(nullptr)
 {
     ui->setupUi(this);
     
@@ -234,4 +236,13 @@ void MainWindow::setupPages()
         ui->navListWidget->setCurrentRow(0);
         updateStatusBar();
     });
+    
+    // 创建关于页面
+    m_aboutWidget = new AboutWidget(this);
+    
+    // 替换占位页面（索引6是关于）
+    QWidget *oldAboutWidget = ui->stackedWidget->widget(6);
+    ui->stackedWidget->removeWidget(oldAboutWidget);
+    ui->stackedWidget->insertWidget(6, m_aboutWidget);
+    delete oldAboutWidget;
 }
