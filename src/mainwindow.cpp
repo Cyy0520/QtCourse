@@ -9,6 +9,7 @@
 #include "views/currentweatherwidget.h"
 #include "views/forecastwidget.h"
 #include "views/chartwidget.h"
+#include "views/lifeindexwidget.h"
 #include "workers/weatherworker.h"
 #include "models/citymodel.h"
 #include <QDateTime>
@@ -21,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_currentWeatherWidget(nullptr)
     , m_forecastWidget(nullptr)
     , m_chartWidget(nullptr)
+    , m_lifeIndexWidget(nullptr)
 {
     ui->setupUi(this);
     
@@ -60,6 +62,13 @@ MainWindow::MainWindow(QWidget *parent)
         }
         if (m_chartWidget) {
             m_chartWidget->updateDailyData(forecast);
+        }
+    });
+    
+    connect(&controller, &WeatherThreadController::lifeIndexReady,
+            this, [this](const QList<LifeIndex> &indices) {
+        if (m_lifeIndexWidget) {
+            m_lifeIndexWidget->updateLifeIndex(indices);
         }
     });
     
@@ -145,6 +154,21 @@ void MainWindow::setupPages()
         WeatherThreadController::instance().requestDailyForecast(cityId);
     });
     
+    // 创建生活指数页面
+    m_lifeIndexWidget = new LifeIndexWidget(this);
+    
+    // 替换占位页面（索引3是生活指数）
+    QWidget *oldLifeWidget = ui->stackedWidget->widget(3);
+    ui->stackedWidget->removeWidget(oldLifeWidget);
+    ui->stackedWidget->insertWidget(3, m_lifeIndexWidget);
+    delete oldLifeWidget;
+    
+    // 连接生活指数刷新信号
+    connect(m_lifeIndexWidget, &LifeIndexWidget::refreshRequested,
+            this, [this](const QString &cityId) {
+        WeatherThreadController::instance().requestLifeIndex(cityId);
+    });
+    
     // 创建城市管理页面
     m_cityWidget = new CityWidget(this);
     
@@ -176,6 +200,11 @@ void MainWindow::setupPages()
         // 更新图表页面
         if (m_chartWidget) {
             m_chartWidget->setCity(cityId, m_currentCityName);
+        }
+        
+        // 更新生活指数页面
+        if (m_lifeIndexWidget) {
+            m_lifeIndexWidget->setCity(cityId, m_currentCityName);
         }
         
         // 请求所有天气数据

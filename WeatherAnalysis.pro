@@ -21,7 +21,8 @@ SOURCES += \
     src/views/citywidget.cpp \
     src/views/currentweatherwidget.cpp \
     src/views/forecastwidget.cpp \
-    src/views/chartwidget.cpp
+    src/views/chartwidget.cpp \
+    src/views/lifeindexwidget.cpp
 
 HEADERS += \
     src/mainwindow.h \
@@ -37,14 +38,16 @@ HEADERS += \
     src/views/citywidget.h \
     src/views/currentweatherwidget.h \
     src/views/forecastwidget.h \
-    src/views/chartwidget.h
+    src/views/chartwidget.h \
+    src/views/lifeindexwidget.h
 
 FORMS += \
     src/mainwindow.ui \
     src/views/citywidget.ui \
     src/views/currentweatherwidget.ui \
     src/views/forecastwidget.ui \
-    src/views/chartwidget.ui
+    src/views/chartwidget.ui \
+    src/views/lifeindexwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

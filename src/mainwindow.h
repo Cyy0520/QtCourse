@@ -17,6 +17,7 @@ class CityWidget;
 class CurrentWeatherWidget;
 class ForecastWidget;
 class ChartWidget;
+class LifeIndexWidget;
 
 /**
  * @class MainWindow
@@ -53,6 +54,7 @@ private:
     CurrentWeatherWidget *m_currentWeatherWidget;
     ForecastWidget *m_forecastWidget;
     ChartWidget *m_chartWidget;
+    LifeIndexWidget *m_lifeIndexWidget;
     QString m_currentCityId;
     QString m_currentCityName;
 };
