@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsWidget</class>
+ <widget class="QWidget" name="SettingsWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>设置</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#SettingsWidget {
+    background-color: #f5f7fa;
+}
+
+QFrame.settingCard {
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid #e4e7ed;
+}
+
+QLabel.sectionTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #303133;
+}
+
+QLabel.settingLabel {
+    font-size: 14px;
+    color: #606266;
+}
+
+QLabel.settingDesc {
+    font-size: 12px;
+    color: #909399;
+}
+
+QComboBox {
+    padding: 8px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    background-color: white;
+    min-width: 150px;
+    font-size: 14px;
+}
+
+QComboBox:hover {
+    border-color: #409EFF;
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 24px;
+}
+
+QRadioButton {
+    font-size: 14px;
+    color: #606266;
+    spacing: 8px;
+}
+
+QRadioButton::indicator {
+    width: 18px;
+    height: 18px;
+}
+
+QPushButton#saveBtn {
+    background-color: #409EFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+QPushButton#saveBtn:hover {
+    background-color: #66b1ff;
+}
+
+QPushButton#resetBtn {
+    background-color: #f5f7fa;
+    color: #606266;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-size: 14px;
+}
+
+QPushButton#resetBtn:hover {
+    background-color: #e4e7ed;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>16</number>
+   </property>
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>20</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>20</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="pageTitle">
+     <property name="text">
+      <string>设置</string>
+     </property>
+     <property name="styleSheet">
+      <string>font-size: 24px; font-weight: bold; color: #303133;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="unitsCard">
+     <property name="styleSheet">
+      <string>QFrame { background-color: white; border-radius: 12px; border: 1px solid #e4e7ed; }</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::StyledPanel</enum>
+     </property>
+     <layout class="QVBoxLayout" name="unitsLayout">
+      <property name="spacing">
+       <number>16</number>
+      </property>
+      <property name="leftMargin">
+       <number>20</number>
+      </property>
+      <property name="topMargin">
+       <number>20</number>
+      </property>
+      <property name="rightMargin">
+       <number>20</number>
+      </property>
+      <property name="bottomMargin">
+       <number>20</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="unitsTitle">
+        <property name="text">
+         <string>单位设置</string>
+        </property>
+        <property name="styleSheet">
+         <string>font-size: 16px; font-weight: bold; color: #303133;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="tempUnitLayout">
+        <item>
+         <layout class="QVBoxLayout" name="tempLabelLayout">
+          <property name="spacing">
+           <number>4</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="tempUnitLabel">
+            <property name="text">
+             <string>温度单位</string>
+            </property>
+            <property name="styleSheet">
+             <string>font-size: 14px; color: #606266;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="tempUnitDesc">
+            <property name="text">
+             <string>选择温度显示单位</string>
+            </property>
+            <property name="styleSheet">
+             <string>font-size: 12px; color: #909399;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="tempSpacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QComboBox" name="tempUnitCombo">
+          <item>
+           <property name="text">
+            <string>摄氏度 (°C)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>华氏度 (°F)</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line1">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="windUnitLayout">
+        <item>
+         <layout class="QVBoxLayout" name="windLabelLayout">
+          <property name="spacing">
+           <number>4</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="windUnitLabel">
+            <property name="text">
+             <string>风速单位</string>
+            </property>
+            <property name="styleSheet">
+             <string>font-size: 14px; color: #606266;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="windUnitDesc">
+            <property name="text">
+             <string>选择风速显示单位</string>
+            </property>
+            <property name="styleSheet">
+             <string>font-size: 12px; color: #909399;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="windSpacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QComboBox" name="windUnitCombo">
+          <item>
+           <property name="text">
+            <string>公里/小时 (km/h)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>米/秒 (m/s)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>英里/小时 (mph)</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line2">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="pressureUnitLayout">
+        <item>
+         <layout class="QVBoxLayout" name="pressureLabelLayout">
+          <property name="spacing">
+           <number>4</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="pressureUnitLabel">
+            <property name="text">
+             <string>气压单位</string>
+            </property>
+            <property name="styleSheet">
+             <string>font-size: 14px; color: #606266;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="pressureUnitDesc">
+            <property name="text">
+             <string>选择气压显示单位</string>
+            </property>
+            <property name="styleSheet">
+             <string>font-size: 12px; color: #909399;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="pressureSpacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QComboBox" name="pressureUnitCombo">
+          <item>
+           <property name="text">
+            <string>百帕 (hPa)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>毫米汞柱 (mmHg)</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="themeCard">
+     <property name="styleSheet">
+      <string>QFrame { background-color: white; border-radius: 12px; border: 1px solid #e4e7ed; }</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::StyledPanel</enum>
+     </property>
+     <layout class="QVBoxLayout" name="themeLayout">
+      <property name="spacing">
+       <number>16</number>
+      </property>
+      <property name="leftMargin">
+       <number>20</number>
+      </property>
+      <property name="topMargin">
+       <number>20</number>
+      </property>
+      <property name="rightMargin">
+       <number>20</number>
+      </property>
+      <property name="bottomMargin">
+       <number>20</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="themeTitle">
+        <property name="text">
+         <string>主题设置</string>
+        </property>
+        <property name="styleSheet">
+         <string>font-size: 16px; font-weight: bold; color: #303133;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="themeSelectLayout">
+        <item>
+         <widget class="QRadioButton" name="lightThemeRadio">
+          <property name="text">
+           <string>浅色主题</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="darkThemeRadio">
+          <property name="text">
+           <string>深色主题</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="autoThemeRadio">
+          <property name="text">
+           <string>跟随系统</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="themeSpacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="bottomSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item>
+      <spacer name="btnSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="resetBtn">
+       <property name="text">
+        <string>恢复默认</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveBtn">
+       <property name="text">
+        <string>保存设置</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
