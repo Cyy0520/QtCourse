@@ -13,6 +13,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+class CityWidget;
+
 /**
  * @class MainWindow
  * @brief 应用程序主窗口
@@ -36,9 +38,15 @@ private:
      * @brief 更新状态栏
      */
     void updateStatusBar();
+    
+    /**
+     * @brief 初始化页面
+     */
+    void setupPages();
 
 private:
     Ui::MainWindow *ui;
+    CityWidget *m_cityWidget;
 };
 
 #endif // MAINWINDOW_H

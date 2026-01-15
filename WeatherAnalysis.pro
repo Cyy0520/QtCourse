@@ -15,7 +15,8 @@ SOURCES += \
     src/config/configmanager.cpp \
     src/models/citymodel.cpp \
     src/models/cityfiltermodel.cpp \
-    src/services/cityservice.cpp
+    src/services/cityservice.cpp \
+    src/views/citywidget.cpp
 
 HEADERS += \
     src/mainwindow.h \
@@ -24,7 +25,8 @@ HEADERS += \
     src/config/configmanager.h \
     src/models/citymodel.h \
     src/models/cityfiltermodel.h \
-    src/services/cityservice.h
+    src/services/cityservice.h \
+    src/views/citywidget.h
 
 FORMS += \
     src/mainwindow.ui
