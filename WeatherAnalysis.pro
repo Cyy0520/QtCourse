@@ -13,14 +13,16 @@ SOURCES += \
     src/database/databasemanager.cpp \
     src/network/networkmanager.cpp \
     src/config/configmanager.cpp \
-    src/models/citymodel.cpp
+    src/models/citymodel.cpp \
+    src/models/cityfiltermodel.cpp
 
 HEADERS += \
     src/mainwindow.h \
     src/database/databasemanager.h \
     src/network/networkmanager.h \
     src/config/configmanager.h \
-    src/models/citymodel.h
+    src/models/citymodel.h \
+    src/models/cityfiltermodel.h
 
 FORMS += \
     src/mainwindow.ui
