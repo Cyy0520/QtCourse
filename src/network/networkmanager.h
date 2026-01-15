@@ -83,6 +83,12 @@ public:
     void clearCache();
     
     /**
+     * @brief 清理过期缓存
+     * @return 清理的条目数量
+     */
+    int cleanExpiredCache();
+    
+    /**
      * @brief 检查网络是否可用
      * @return 网络状态
      */

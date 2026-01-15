@@ -17,6 +17,7 @@ SOURCES += \
     src/models/cityfiltermodel.cpp \
     src/services/cityservice.cpp \
     src/services/weatherservice.cpp \
+    src/workers/weatherworker.cpp \
     src/views/citywidget.cpp
 
 HEADERS += \
@@ -29,6 +30,7 @@ HEADERS += \
     src/models/weatherdata.h \
     src/services/cityservice.h \
     src/services/weatherservice.h \
+    src/workers/weatherworker.h \
     src/views/citywidget.h
 
 FORMS += \

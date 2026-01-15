@@ -249,6 +249,28 @@ void NetworkManager::clearCache()
     qDebug() << "Cache cleared";
 }
 
+int NetworkManager::cleanExpiredCache()
+{
+    QMutexLocker locker(&m_cacheMutex);
+    
+    int removedCount = 0;
+    qint64 now = QDateTime::currentSecsSinceEpoch();
+    
+    // QCache 不支持直接遍历，需要获取所有 keys
+    QList<QString> keys = m_cache.keys();
+    
+    for (const QString &key : keys) {
+        CacheEntry *entry = m_cache.object(key);
+        if (entry && (now - entry->timestamp >= entry->ttl)) {
+            m_cache.remove(key);
+            removedCount++;
+        }
+    }
+    
+    qDebug() << "Cleaned" << removedCount << "expired cache entries";
+    return removedCount;
+}
+
 bool NetworkManager::isNetworkAvailable() const
 {
     // Qt6 移除了 networkAccessible，简单返回 true
