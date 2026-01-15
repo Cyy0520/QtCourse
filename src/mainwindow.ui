@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1200</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>天气数据展示与趋势分析系统</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="mainLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QListWidget" name="navListWidget">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QListWidget {
+    background-color: #2c3e50;
+    border: none;
+    color: white;
+    font-size: 14px;
+}
+QListWidget::item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #34495e;
+}
+QListWidget::item:selected {
+    background-color: #3498db;
+}
+QListWidget::item:hover {
+    background-color: #34495e;
+}</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>🏠 实时天气</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>📅 天气预报</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>📊 数据分析</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>📜 历史记录</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>🏙️ 城市管理</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>⚙️ 系统设置</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="styleSheet">
+       <string notr="true">background-color: #ecf0f1;</string>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <!-- 页面0: 实时天气 -->
+      <widget class="QWidget" name="pageRealtime">
+       <layout class="QVBoxLayout" name="layoutRealtime">
+        <item>
+         <widget class="QLabel" name="labelRealtime">
+          <property name="text">
+           <string>实时天气页面</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size: 24px; color: #2c3e50;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <!-- 页面1: 天气预报 -->
+      <widget class="QWidget" name="pageForecast">
+       <layout class="QVBoxLayout" name="layoutForecast">
+        <item>
+         <widget class="QLabel" name="labelForecast">
+          <property name="text">
+           <string>天气预报页面</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size: 24px; color: #2c3e50;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <!-- 页面2: 数据分析 -->
+      <widget class="QWidget" name="pageAnalysis">
+       <layout class="QVBoxLayout" name="layoutAnalysis">
+        <item>
+         <widget class="QLabel" name="labelAnalysis">
+          <property name="text">
+           <string>数据分析页面</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size: 24px; color: #2c3e50;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <!-- 页面3: 历史记录 -->
+      <widget class="QWidget" name="pageHistory">
+       <layout class="QVBoxLayout" name="layoutHistory">
+        <item>
+         <widget class="QLabel" name="labelHistory">
+          <property name="text">
+           <string>历史记录页面</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size: 24px; color: #2c3e50;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <!-- 页面4: 城市管理 -->
+      <widget class="QWidget" name="pageCity">
+       <layout class="QVBoxLayout" name="layoutCity">
+        <item>
+         <widget class="QLabel" name="labelCity">
+          <property name="text">
+           <string>城市管理页面</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size: 24px; color: #2c3e50;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <!-- 页面5: 系统设置 -->
+      <widget class="QWidget" name="pageSettings">
+       <layout class="QVBoxLayout" name="layoutSettings">
+        <item>
+         <widget class="QLabel" name="labelSettings">
+          <property name="text">
+           <string>系统设置页面</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size: 24px; color: #2c3e50;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">QStatusBar {
+    background-color: #34495e;
+    color: white;
+}</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>navListWidget</sender>
+   <signal>currentRowChanged(int)</signal>
+   <receiver>stackedWidget</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>400</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>700</x>
+     <y>400</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
