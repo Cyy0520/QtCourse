@@ -13,6 +13,7 @@
 #include "views/settingswidget.h"
 #include "views/aboutwidget.h"
 #include "views/historywidget.h"
+#include "views/alertwidget.h"
 #include "workers/weatherworker.h"
 #include "models/citymodel.h"
 #include <QDateTime>
@@ -29,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_settingsWidget(nullptr)
     , m_aboutWidget(nullptr)
     , m_historyWidget(nullptr)
+    , m_alertWidget(nullptr)
 {
     ui->setupUi(this);
     
@@ -75,6 +77,13 @@ MainWindow::MainWindow(QWidget *parent)
             this, [this](const QList<LifeIndex> &indices) {
         if (m_lifeIndexWidget) {
             m_lifeIndexWidget->updateLifeIndex(indices);
+        }
+    });
+    
+    connect(&controller, &WeatherThreadController::weatherAlertReady,
+            this, [this](const QList<WeatherAlert> &alerts) {
+        if (m_alertWidget) {
+            m_alertWidget->updateAlerts(alerts);
         }
     });
     
@@ -184,13 +193,22 @@ void MainWindow::setupPages()
     ui->stackedWidget->insertWidget(4, m_historyWidget);
     delete oldHistoryWidget;
     
+    // 创建天气预警页面
+    m_alertWidget = new AlertWidget(this);
+    
+    // 替换占位页面（索引5是天气预警）
+    QWidget *oldAlertWidget = ui->stackedWidget->widget(5);
+    ui->stackedWidget->removeWidget(oldAlertWidget);
+    ui->stackedWidget->insertWidget(5, m_alertWidget);
+    delete oldAlertWidget;
+    
     // 创建城市管理页面
     m_cityWidget = new CityWidget(this);
     
-    // 替换占位页面（索引5是城市管理）
-    QWidget *oldWidget = ui->stackedWidget->widget(5);
+    // 替换占位页面（索引6是城市管理）
+    QWidget *oldWidget = ui->stackedWidget->widget(6);
     ui->stackedWidget->removeWidget(oldWidget);
-    ui->stackedWidget->insertWidget(5, m_cityWidget);
+    ui->stackedWidget->insertWidget(6, m_cityWidget);
     delete oldWidget;
     
     // 连接城市选择信号
@@ -238,10 +256,10 @@ void MainWindow::setupPages()
     // 创建设置页面
     m_settingsWidget = new SettingsWidget(this);
     
-    // 替换占位页面（索引6是设置）
-    QWidget *oldSettingsWidget = ui->stackedWidget->widget(6);
+    // 替换占位页面（索引7是设置）
+    QWidget *oldSettingsWidget = ui->stackedWidget->widget(7);
     ui->stackedWidget->removeWidget(oldSettingsWidget);
-    ui->stackedWidget->insertWidget(6, m_settingsWidget);
+    ui->stackedWidget->insertWidget(7, m_settingsWidget);
     delete oldSettingsWidget;
     
     // 连接设置变更信号
@@ -256,9 +274,9 @@ void MainWindow::setupPages()
     // 创建关于页面
     m_aboutWidget = new AboutWidget(this);
     
-    // 替换占位页面（索引7是关于）
-    QWidget *oldAboutWidget = ui->stackedWidget->widget(7);
+    // 替换占位页面（索引8是关于）
+    QWidget *oldAboutWidget = ui->stackedWidget->widget(8);
     ui->stackedWidget->removeWidget(oldAboutWidget);
-    ui->stackedWidget->insertWidget(7, m_aboutWidget);
+    ui->stackedWidget->insertWidget(8, m_aboutWidget);
     delete oldAboutWidget;
 }

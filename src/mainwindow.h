@@ -21,6 +21,7 @@ class LifeIndexWidget;
 class SettingsWidget;
 class AboutWidget;
 class HistoryWidget;
+class AlertWidget;
 
 /**
  * @class MainWindow
@@ -61,6 +62,7 @@ private:
     SettingsWidget *m_settingsWidget;
     AboutWidget *m_aboutWidget;
     HistoryWidget *m_historyWidget;
+    AlertWidget *m_alertWidget;
     QString m_currentCityId;
     QString m_currentCityName;
 };

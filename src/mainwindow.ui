@@ -95,6 +95,11 @@ QListWidget::item:hover {
       </item>
       <item>
        <property name="text">
+        <string>⚠️ 天气预警</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
         <string>🏙️ 城市管理</string>
        </property>
       </item>
@@ -208,7 +213,25 @@ QListWidget::item:hover {
         </item>
        </layout>
       </widget>
-      <!-- 页面5: 城市管理 -->
+      <!-- 页面5: 天气预警 -->
+      <widget class="QWidget" name="pageAlert">
+       <layout class="QVBoxLayout" name="layoutAlert">
+        <item>
+         <widget class="QLabel" name="labelAlert">
+          <property name="text">
+           <string>天气预警页面</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font-size: 24px; color: #2c3e50;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <!-- 页面6: 城市管理 -->
       <widget class="QWidget" name="pageCity">
        <layout class="QVBoxLayout" name="layoutCity">
         <item>
@@ -226,7 +249,7 @@ QListWidget::item:hover {
         </item>
        </layout>
       </widget>
-      <!-- 页面6: 系统设置 -->
+      <!-- 页面7: 系统设置 -->
       <widget class="QWidget" name="pageSettings">
        <layout class="QVBoxLayout" name="layoutSettings">
         <item>
@@ -244,7 +267,7 @@ QListWidget::item:hover {
         </item>
        </layout>
       </widget>
-      <!-- 页面7: 关于 -->
+      <!-- 页面8: 关于 -->
       <widget class="QWidget" name="pageAbout">
        <layout class="QVBoxLayout" name="layoutAbout">
         <item>
