@@ -10,11 +10,13 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
 SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
-    src/database/databasemanager.cpp
+    src/database/databasemanager.cpp \
+    src/network/networkmanager.cpp
 
 HEADERS += \
     src/mainwindow.h \
-    src/database/databasemanager.h
+    src/database/databasemanager.h \
+    src/network/networkmanager.h
 
 FORMS += \
     src/mainwindow.ui
