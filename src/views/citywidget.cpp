@@ -9,6 +9,12 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QDateTime>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QUrl>
 
 CityWidget::CityWidget(QWidget *parent)
     : QWidget(parent)
@@ -76,6 +82,7 @@ void CityWidget::addDefaultCities()
         {0, "101020100", "上海", "上海", "CN", 31.2304, 121.4737, true, 2},
         {0, "101280101", "广州", "广东", "CN", 23.1291, 113.2644, true, 3},
         {0, "101280601", "深圳", "广东", "CN", 22.5431, 114.0579, true, 4},
+        {0, "101281601", "东莞", "广东", "CN", 23.0489, 113.7447, false, 0},
         {0, "101030100", "天津", "天津", "CN", 39.0842, 117.2009, false, 0},
         {0, "101040100", "重庆", "重庆", "CN", 29.4316, 106.9123, false, 0},
         {0, "101210101", "杭州", "浙江", "CN", 30.2741, 120.1551, false, 0},
@@ -133,19 +140,59 @@ void CityWidget::onAddCityClicked()
                                               tr("请输入城市名称:"), QLineEdit::Normal,
                                               "", &ok);
     if (ok && !cityName.isEmpty()) {
-        CityInfo city;
-        city.cityId = QString::number(QDateTime::currentMSecsSinceEpoch());
-        city.name = cityName;
-        city.province = tr("未知");
-        city.country = "CN";
-        city.isFavorite = false;
+        // 使用 Open-Meteo Geocoding API 获取城市经纬度
+        QString geocodeUrl = QString("https://geocoding-api.open-meteo.com/v1/search?name=%1&count=1&language=zh&format=json")
+                             .arg(QString(QUrl::toPercentEncoding(cityName)));
         
-        if (CityService::instance().addCity(city)) {
-            loadCities();
-            QMessageBox::information(this, tr("成功"), tr("城市 %1 已添加").arg(cityName));
-        } else {
-            QMessageBox::warning(this, tr("错误"), tr("添加城市失败"));
-        }
+        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+        QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(geocodeUrl)));
+        
+        connect(reply, &QNetworkReply::finished, this, [this, reply, manager, cityName]() {
+            reply->deleteLater();
+            manager->deleteLater();
+            
+            if (reply->error() != QNetworkReply::NoError) {
+                QMessageBox::warning(this, tr("错误"), tr("无法获取城市信息: %1").arg(reply->errorString()));
+                return;
+            }
+            
+            QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
+            QJsonObject json = doc.object();
+            QJsonArray results = json["results"].toArray();
+            
+            if (results.isEmpty()) {
+                QMessageBox::warning(this, tr("错误"), tr("未找到城市: %1").arg(cityName));
+                return;
+            }
+            
+            QJsonObject cityData = results[0].toObject();
+            
+            CityInfo city;
+            city.cityId = QString::number(cityData["id"].toInteger());
+            city.name = cityData["name"].toString();
+            city.province = cityData["admin1"].toString();
+            city.country = cityData["country_code"].toString();
+            city.latitude = cityData["latitude"].toDouble();
+            city.longitude = cityData["longitude"].toDouble();
+            city.isFavorite = false;
+            
+            // 检查城市是否已存在
+            if (CityService::instance().cityExists(city.cityId)) {
+                QMessageBox::information(this, tr("提示"), tr("城市 %1 已存在").arg(city.name));
+                return;
+            }
+            
+            if (CityService::instance().addCity(city)) {
+                loadCities();
+                QMessageBox::information(this, tr("成功"), 
+                    tr("城市 %1 已添加\n经度: %2, 纬度: %3")
+                    .arg(city.name)
+                    .arg(city.longitude, 0, 'f', 4)
+                    .arg(city.latitude, 0, 'f', 4));
+            } else {
+                QMessageBox::warning(this, tr("错误"), tr("添加城市失败"));
+            }
+        });
     }
 }
 

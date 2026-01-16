@@ -6,6 +6,8 @@
  */
 
 #include "mainwindow.h"
+#include "config/configmanager.h"
+#include "services/weatherservice.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -16,6 +18,12 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("WeatherAnalysis");
     QApplication::setApplicationVersion("1.0.0");
     QApplication::setOrganizationName("YourOrganization");
+    
+    // 加载保存的 API Key
+    QString apiKey = ConfigManager::instance().value("api/qweatherKey", "").toString();
+    if (!apiKey.isEmpty()) {
+        WeatherService::instance().setApiKey(apiKey);
+    }
     
     MainWindow w;
     w.show();

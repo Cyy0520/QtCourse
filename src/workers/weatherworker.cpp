@@ -7,6 +7,7 @@
 #include "../services/weatherservice.h"
 #include "../network/networkmanager.h"
 #include <QDebug>
+#include <memory>
 
 // ==================== WeatherWorker ====================
 
@@ -69,57 +70,56 @@ void WeatherWorker::processTask(const WeatherTask &task)
     
     switch (task.type) {
         case WeatherTask::FetchCurrent: {
-            // 连接一次性信号
-            QMetaObject::Connection conn;
-            conn = connect(&service, &WeatherService::currentWeatherReady,
-                          this, [this, task, &conn](const CurrentWeather &weather) {
+            auto conn = std::make_shared<QMetaObject::Connection>();
+            *conn = connect(&service, &WeatherService::currentWeatherReady,
+                          this, [this, task, conn](const CurrentWeather &weather) {
                 emit currentWeatherReady(weather);
                 emit taskFinished(task.cityId, task.type);
-                disconnect(conn);
+                disconnect(*conn);
             });
             service.fetchCurrentWeather(task.cityId);
             break;
         }
         case WeatherTask::FetchHourly: {
-            QMetaObject::Connection conn;
-            conn = connect(&service, &WeatherService::hourlyForecastReady,
-                          this, [this, task, &conn](const QList<HourlyForecast> &forecast) {
+            auto conn = std::make_shared<QMetaObject::Connection>();
+            *conn = connect(&service, &WeatherService::hourlyForecastReady,
+                          this, [this, task, conn](const QList<HourlyForecast> &forecast) {
                 emit hourlyForecastReady(forecast);
                 emit taskFinished(task.cityId, task.type);
-                disconnect(conn);
+                disconnect(*conn);
             });
             service.fetchHourlyForecast(task.cityId, task.param > 0 ? task.param : 24);
             break;
         }
         case WeatherTask::FetchDaily: {
-            QMetaObject::Connection conn;
-            conn = connect(&service, &WeatherService::dailyForecastReady,
-                          this, [this, task, &conn](const QList<DailyForecast> &forecast) {
+            auto conn = std::make_shared<QMetaObject::Connection>();
+            *conn = connect(&service, &WeatherService::dailyForecastReady,
+                          this, [this, task, conn](const QList<DailyForecast> &forecast) {
                 emit dailyForecastReady(forecast);
                 emit taskFinished(task.cityId, task.type);
-                disconnect(conn);
+                disconnect(*conn);
             });
             service.fetchDailyForecast(task.cityId, task.param > 0 ? task.param : 7);
             break;
         }
         case WeatherTask::FetchLifeIndex: {
-            QMetaObject::Connection conn;
-            conn = connect(&service, &WeatherService::lifeIndexReady,
-                          this, [this, task, &conn](const QList<LifeIndex> &indices) {
+            auto conn = std::make_shared<QMetaObject::Connection>();
+            *conn = connect(&service, &WeatherService::lifeIndexReady,
+                          this, [this, task, conn](const QList<LifeIndex> &indices) {
                 emit lifeIndexReady(indices);
                 emit taskFinished(task.cityId, task.type);
-                disconnect(conn);
+                disconnect(*conn);
             });
             service.fetchLifeIndex(task.cityId);
             break;
         }
         case WeatherTask::FetchAlert: {
-            QMetaObject::Connection conn;
-            conn = connect(&service, &WeatherService::weatherAlertReady,
-                          this, [this, task, &conn](const QList<WeatherAlert> &alerts) {
+            auto conn = std::make_shared<QMetaObject::Connection>();
+            *conn = connect(&service, &WeatherService::weatherAlertReady,
+                          this, [this, task, conn](const QList<WeatherAlert> &alerts) {
                 emit weatherAlertReady(alerts);
                 emit taskFinished(task.cityId, task.type);
-                disconnect(conn);
+                disconnect(*conn);
             });
             service.fetchWeatherAlert(task.cityId);
             break;

@@ -75,30 +75,30 @@ void ForecastWidget::clear()
 
 void ForecastWidget::clearHourlyItems()
 {
-    for (QFrame *item : m_hourlyItems) {
-        ui->hourlyLayout->removeWidget(item);
-        delete item;
-    }
+    // 先清空列表引用
     m_hourlyItems.clear();
     
-    // 移除弹性空间
+    // 移除并删除布局中的所有项目（包括 widget 和弹性空间）
     QLayoutItem *child;
     while ((child = ui->hourlyLayout->takeAt(0)) != nullptr) {
+        if (child->widget()) {
+            delete child->widget();
+        }
         delete child;
     }
 }
 
 void ForecastWidget::clearDailyItems()
 {
-    for (QFrame *item : m_dailyItems) {
-        ui->dailyLayout->removeWidget(item);
-        delete item;
-    }
+    // 先清空列表引用
     m_dailyItems.clear();
     
-    // 移除弹性空间
+    // 移除并删除布局中的所有项目（包括 widget 和弹性空间）
     QLayoutItem *child;
     while ((child = ui->dailyLayout->takeAt(0)) != nullptr) {
+        if (child->widget()) {
+            delete child->widget();
+        }
         delete child;
     }
 }

@@ -6,6 +6,7 @@
 #include "settingswidget.h"
 #include "ui_settingswidget.h"
 #include "../config/configmanager.h"
+#include "../services/weatherservice.h"
 #include <QMessageBox>
 
 SettingsWidget::SettingsWidget(QWidget *parent)

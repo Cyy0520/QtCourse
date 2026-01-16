@@ -8,6 +8,7 @@
 
 #include <QMainWindow>
 #include "database/databasemanager.h"
+#include "config/configmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -51,6 +52,11 @@ private:
      * @brief 初始化页面
      */
     void setupPages();
+    
+    /**
+     * @brief 应用主题
+     */
+    void applyTheme(ThemeMode theme);
 
 private:
     Ui::MainWindow *ui;

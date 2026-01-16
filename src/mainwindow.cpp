@@ -16,6 +16,7 @@
 #include "views/alertwidget.h"
 #include "workers/weatherworker.h"
 #include "models/citymodel.h"
+#include "config/configmanager.h"
 #include <QDateTime>
 #include <QMessageBox>
 
@@ -87,11 +88,19 @@ MainWindow::MainWindow(QWidget *parent)
         }
     });
     
+    connect(&controller, &WeatherThreadController::errorOccurred,
+            this, [this](const QString &error) {
+        ui->statusbar->showMessage(tr("错误: %1").arg(error), 5000);
+    });
+    
     // 启动缓存清理定时器
     controller.startCacheCleanTimer();
     
     // 默认选中第一项
     ui->navListWidget->setCurrentRow(0);
+    
+    // 应用保存的主题
+    applyTheme(ConfigManager::instance().themeMode());
     
     // 更新状态栏
     updateStatusBar();
@@ -265,10 +274,16 @@ void MainWindow::setupPages()
     // 连接设置变更信号
     connect(m_settingsWidget, &SettingsWidget::settingsChanged,
             this, [this]() {
-        // 刷新当前天气显示以应用新单位
+        // 刷新当前天气显示以应用新设置
         if (!m_currentCityId.isEmpty()) {
-            WeatherThreadController::instance().requestCurrentWeather(m_currentCityId);
+            WeatherThreadController::instance().requestAllWeatherData(m_currentCityId);
         }
+    });
+    
+    // 连接主题变更信号
+    connect(m_settingsWidget, &SettingsWidget::themeChanged,
+            this, [this](int theme) {
+        applyTheme(static_cast<ThemeMode>(theme));
     });
     
     // 创建关于页面
@@ -279,4 +294,125 @@ void MainWindow::setupPages()
     ui->stackedWidget->removeWidget(oldAboutWidget);
     ui->stackedWidget->insertWidget(8, m_aboutWidget);
     delete oldAboutWidget;
+}
+
+void MainWindow::applyTheme(ThemeMode theme)
+{
+    QString navStyle;
+    QString contentStyle;
+    QString statusStyle;
+    
+    if (theme == ThemeMode::Dark) {
+        // 深色主题
+        navStyle = R"(
+            QListWidget {
+                background-color: #1a1a2e;
+                border: none;
+                color: #eaeaea;
+                font-size: 14px;
+            }
+            QListWidget::item {
+                padding: 15px 20px;
+                border-bottom: 1px solid #16213e;
+            }
+            QListWidget::item:selected {
+                background-color: #0f3460;
+            }
+            QListWidget::item:hover {
+                background-color: #16213e;
+            }
+        )";
+        
+        contentStyle = "background-color: #0f0f23;";
+        
+        statusStyle = R"(
+            QStatusBar {
+                background-color: #16213e;
+                color: #eaeaea;
+            }
+        )";
+        
+        // 设置整体窗口样式
+        this->setStyleSheet(R"(
+            QMainWindow {
+                background-color: #0f0f23;
+            }
+            QWidget {
+                color: #eaeaea;
+            }
+            QLabel {
+                color: #eaeaea;
+            }
+            QGroupBox {
+                color: #eaeaea;
+                border: 1px solid #16213e;
+                background-color: #1a1a2e;
+            }
+            QTableWidget {
+                background-color: #1a1a2e;
+                color: #eaeaea;
+                gridline-color: #16213e;
+            }
+            QHeaderView::section {
+                background-color: #16213e;
+                color: #eaeaea;
+            }
+            QPushButton {
+                background-color: #0f3460;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 16px;
+            }
+            QPushButton:hover {
+                background-color: #1a4a7a;
+            }
+            QComboBox, QDateEdit, QLineEdit {
+                background-color: #1a1a2e;
+                color: #eaeaea;
+                border: 1px solid #16213e;
+                border-radius: 4px;
+                padding: 5px;
+            }
+            QScrollArea {
+                background-color: #0f0f23;
+            }
+        )");
+    } else {
+        // 浅色主题
+        navStyle = R"(
+            QListWidget {
+                background-color: #2c3e50;
+                border: none;
+                color: white;
+                font-size: 14px;
+            }
+            QListWidget::item {
+                padding: 15px 20px;
+                border-bottom: 1px solid #34495e;
+            }
+            QListWidget::item:selected {
+                background-color: #3498db;
+            }
+            QListWidget::item:hover {
+                background-color: #34495e;
+            }
+        )";
+        
+        contentStyle = "background-color: #ecf0f1;";
+        
+        statusStyle = R"(
+            QStatusBar {
+                background-color: #34495e;
+                color: white;
+            }
+        )";
+        
+        // 清除整体样式，恢复默认
+        this->setStyleSheet("");
+    }
+    
+    ui->navListWidget->setStyleSheet(navStyle);
+    ui->stackedWidget->setStyleSheet(contentStyle);
+    ui->statusbar->setStyleSheet(statusStyle);
 }

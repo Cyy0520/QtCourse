@@ -85,13 +85,13 @@ private:
     WeatherService(const WeatherService&) = delete;
     WeatherService& operator=(const WeatherService&) = delete;
     
-    // JSON解析方法
-    CurrentWeather parseCurrentWeather(const QJsonObject &json, const QString &cityId);
-    QList<HourlyForecast> parseHourlyForecast(const QJsonObject &json);
-    QList<DailyForecast> parseDailyForecast(const QJsonObject &json);
-    QList<LifeIndex> parseLifeIndex(const QJsonObject &json);
-    QList<WeatherAlert> parseWeatherAlert(const QJsonObject &json);
-    void parseAirQuality(const QJsonObject &json, CurrentWeather &weather);
+    // Open-Meteo API 解析方法
+    void getCityCoordinates(const QString &cityId, double &lat, double &lon);
+    CurrentWeather parseOpenMeteoCurrentWeather(const QJsonObject &json, const QString &cityId);
+    QList<HourlyForecast> parseOpenMeteoHourlyForecast(const QJsonObject &json);
+    QList<DailyForecast> parseOpenMeteoDailyForecast(const QJsonObject &json);
+    QString getWindDirectionName(int degree);
+    QString getWmoWeatherDesc(int code);
     
     QString buildUrl(const QString &endpoint, const QString &cityId, const QMap<QString, QString> &params = {});
 
